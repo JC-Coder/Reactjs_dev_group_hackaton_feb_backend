@@ -1,39 +1,8 @@
 const router = require("express").Router();
 const User = require("../models/User");
 const MusicRequest = require("../models/MusicRequests");
-const { AppResponse, AppError } = require("../utils");
-const stringSimilarity = require("string-similarity");
-
-// Helper function to get minutes from milliseconds
-function convertMilliseconds(milliseconds) {
-  const minutes = Math.floor(milliseconds / 60000);
-  milliseconds %= 60000;
-  const seconds = Math.floor(milliseconds / 1000);
-  return `${minutes > 9 ? minutes : "0" + minutes}:${
-    seconds > 9 ? seconds : "0" + seconds
-  }`;
-}
-
-// Helper function to get similar song names
-async function getSimilarSongNames(name, userId) {
-  // Query the database for previously requested song names
-  const previousRequests = await MusicRequest.find({
-    userId
-  }, "name");
-  console.log(previousRequests);
-  console.log(previousRequests);
-  const previousSongNames = previousRequests.map((request) => request.name);
-  console.log(previousSongNames);
-
-  // Use string-similarity library to get the most similar song names
-  const similarityThreshold = 0.6; // can be Adjust as needed
-  const similarities = stringSimilarity.findBestMatch(name, previousSongNames);
-  const similarSongNames = similarities.ratings
-    .filter((rating) => rating.rating > similarityThreshold)
-    .map((rating) => rating.target);
-
-  return similarSongNames;
-}
+const { AppResponse, AppError, helperFunction } = require("../utils");
+const Notification = require("../models/Notification");
 
 // create new user
 router.post("/new", async (req, res) => {
@@ -46,7 +15,7 @@ router.post("/new", async (req, res) => {
   // check if user exist with id
   const userExist = await User.findOne({ uniqueId: userId });
   if (userExist) {
-    return new AppError(res, `user with id ${userId} already exist`, 400);
+    return new AppError(res, {message:`user with id ${userId} already exist`}, 400);
   }
 
   const user = await User.create({ uniqueId: userId });
@@ -60,7 +29,7 @@ router.post("/profile", async (req, res) => {
   const user = await User.findOne({ uniqueId: userId });
 
   if (!user) {
-    return new AppError(res, `No user found with id: ${userId}`, 404);
+    return new AppError(res, {message: `No user found with id: ${userId}`}, 404);
   }
 
   return new AppResponse(res, user, 200);
@@ -87,16 +56,26 @@ router.post("/request", async (req, res) => {
   }
 
   // limit user to 1 request every 5 minute
-  // if(user.nextMusicRequestTime > time){
-  //   const remTime = convertMilliseconds(user.nextMusicRequestTime - time)
-  //   return new AppError(res, `you can request in next ${remTime} mins`, 400)
-  // }
+  if (user.nextMusicRequestTime > time) {
+    const remTime = helperFunction.convertMilliseconds(
+      user.nextMusicRequestTime - time
+    );
+    return new AppError(res, {message: `you can only request a song every 5 minutes, next request in ${remTime} mins`}, 400);
+  }
 
   // check if user have request the same song within last 30 mins
   const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
   const previousRequests = await MusicRequest.find({
     userId,
-    name: { $in: [name.toLowerCase(), ...(await getSimilarSongNames(name.toLowerCase(), userId))] },
+    name: {
+      $in: [
+        name.toLowerCase(),
+        ...(await helperFunction.getSimilarSongNames(
+          name.toLowerCase(),
+          userId
+        )),
+      ],
+    },
     artist: artist.toLowerCase(),
     requestedAt: { $gte: thirtyMinutesAgo },
   });
@@ -111,11 +90,22 @@ router.post("/request", async (req, res) => {
     );
   }
 
+  // make request
   const request = await MusicRequest.create({
     ...req.body,
     name: name.toLowerCase(),
     artist: artist.toLowerCase(),
   });
+
+  // create notification for dj
+  const notification = await Notification.create({
+    userId: userId,
+    access: "dj",
+    title: "Music Request",
+    message: `New music request ${name} by ${artist}`,
+  });
+
+  console.log(notification);
 
   // update user request time
   await User.updateOne(
