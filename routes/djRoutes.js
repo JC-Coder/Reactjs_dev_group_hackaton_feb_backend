@@ -6,9 +6,13 @@ const Notification = require("../models/Notification");
 
 // get all music requests
 router.get("/requests", async (req, res) => {
-  const requests = await MusicRequest.find();
+  try{
+    const requests = await MusicRequest.find();
 
   return new AppResponse(res, requests, 200);
+  }catch(e){
+    return new AppError(res, e.message, 500);
+  }
 });
 
 // update music status
