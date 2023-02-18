@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
 const { userRoutes, djRoutes } = require("./routes");
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 const cors = require("cors");
 
@@ -17,7 +20,7 @@ app.use("/dj", djRoutes);
 
 // server config
 const server = require("http").createServer(app);
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // bootstrap server
 server.listen(PORT, () => {
