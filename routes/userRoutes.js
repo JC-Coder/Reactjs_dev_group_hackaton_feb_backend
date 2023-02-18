@@ -73,18 +73,18 @@ router.post("/request", async (req, res) => {
     }
 
     // limit user to 1 request every 5 minute
-    if (user.nextMusicRequestTime > time) {
-      const remTime = helperFunction.convertMilliseconds(
-        user.nextMusicRequestTime - time
-      );
-      return new AppError(
-        res,
-        {
-          message: `you can only request a song every 5 minutes, next request in ${remTime} mins`,
-        },
-        400
-      );
-    }
+    // if (user.nextMusicRequestTime > time) {
+    //   const remTime = helperFunction.convertMilliseconds(
+    //     user.nextMusicRequestTime - time
+    //   );
+    //   return new AppError(
+    //     res,
+    //     {
+    //       message: `you can only request a song every 5 minutes, next request in ${remTime} mins`,
+    //     },
+    //     400
+    //   );
+    // }
 
     // check if user have request the same song within last 30 mins
     const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
@@ -93,10 +93,12 @@ router.post("/request", async (req, res) => {
       userId
     );
 
+    const namesToSearch = [name.toLowerCase(), ...similarSongNames]
+
     const previousRequests = await MusicRequest.find({
       userId,
       name: {
-        $in: [name.toLowerCase(), similarSongNames.toString()],
+        $in: namesToSearch,
       },
       artist: artist.toLowerCase(),
       requestedAt: { $gte: thirtyMinutesAgo },
