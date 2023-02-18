@@ -96,11 +96,12 @@ router.post("/request", async (req, res) => {
     const previousRequests = await MusicRequest.find({
       userId,
       name: {
-        $in: [name.toLowerCase(), ...similarSongNames],
+        $in: [name.toLowerCase(), similarSongNames.toString()],
       },
       artist: artist.toLowerCase(),
       requestedAt: { $gte: thirtyMinutesAgo },
     });
+
 
     if (previousRequests.length > 0) {
       return new AppError(
