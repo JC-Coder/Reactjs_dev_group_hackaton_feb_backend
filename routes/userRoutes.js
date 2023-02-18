@@ -4,6 +4,11 @@ const MusicRequest = require("../models/MusicRequests");
 const { AppResponse, AppError, helperFunction } = require("../utils");
 const Notification = require("../models/Notification");
 
+// test endpoint 
+router.get('/test', async (req, res) => {
+  res.json('api is working')
+})
+
 // create new user
 router.post("/new", async (req, res) => {
   const { userId } = req.body;

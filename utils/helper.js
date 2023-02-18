@@ -21,10 +21,7 @@ const helperFunction = {
       },
       "name"
     );
-    console.log(previousRequests);
-    console.log(previousRequests);
     const previousSongNames = previousRequests.map((request) => request.name);
-    console.log(previousSongNames);
 
     // Use string-similarity library to get the most similar song names
     const similarityThreshold = 0.6; // can be Adjust as needed
