@@ -1,4 +1,4 @@
-const MusicRequest = require('../models/MusicRequests');
+const MusicRequest = require("../models/MusicRequests");
 const stringSimilarity = require("string-similarity");
 
 const helperFunction = {
@@ -14,6 +14,7 @@ const helperFunction = {
 
   // Helper function to get similar song names
   getSimilarSongNames: async (name, userId) => {
+    console.log("getssn 1");
     // Query the database for previously requested song names
     const previousRequests = await MusicRequest.find(
       {
@@ -21,6 +22,13 @@ const helperFunction = {
       },
       "name"
     );
+    console.log(previousRequests);
+    console.log("getssn 2");
+
+    if(previousRequests.length < 1){
+      return previousRequests;
+    }
+
     const previousSongNames = previousRequests.map((request) => request.name);
 
     // Use string-similarity library to get the most similar song names
@@ -33,8 +41,11 @@ const helperFunction = {
       .filter((rating) => rating.rating > similarityThreshold)
       .map((rating) => rating.target);
 
+    console.log("getssn 3");
+    console.log(similarSongNames);
+
     return similarSongNames;
   },
 };
 
-module.exports = helperFunction
+module.exports = helperFunction;
