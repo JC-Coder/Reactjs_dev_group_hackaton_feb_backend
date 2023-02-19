@@ -45,7 +45,6 @@ router.put("/requests", async (req, res) => {
       } ${statusMessage(status)}`,
     });
 
-    console.log(notification);
 
     return new AppResponse(res, { message: "request status updated" }, 200);
   } catch (e) {

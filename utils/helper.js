@@ -14,7 +14,6 @@ const helperFunction = {
 
   // Helper function to get similar song names
   getSimilarSongNames: async (name, userId) => {
-    console.log("getssn 1");
     // Query the database for previously requested song names
     const previousRequests = await MusicRequest.find(
       {
@@ -22,10 +21,8 @@ const helperFunction = {
       },
       "name"
     );
-    console.log(previousRequests);
-    console.log("getssn 2");
 
-    if(previousRequests.length < 1){
+    if (previousRequests.length < 1) {
       return previousRequests;
     }
 
@@ -40,9 +37,6 @@ const helperFunction = {
     const similarSongNames = similarities.ratings
       .filter((rating) => rating.rating > similarityThreshold)
       .map((rating) => rating.target);
-
-    console.log("getssn 3");
-    console.log(similarSongNames);
 
     return similarSongNames;
   },
