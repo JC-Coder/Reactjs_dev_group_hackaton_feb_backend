@@ -162,4 +162,42 @@ router.get("/requests/:userId", async (req, res) => {
   }
 });
 
+// user delete all request history 
+router.post("/requests/clear/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  if (!userId) {
+    return new AppError(res, `user id is required`, 400);
+  }
+
+  try {
+    await MusicRequest.deleteMany({
+      userId,
+    });
+
+    return new AppResponse(res, {message: "History Deleted"}, 200);
+  } catch (e) {
+    return new AppError(res, e.message, 500);
+  }
+});
+
+// get all user notifications
+router.get('/notifications/:userId', async (req, res) => {
+  const {userId} = req.params;
+
+  if (!userId) {
+    return new AppError(res, `user id is required`, 400);
+  }
+
+  try {
+    const notifications = await Notification.find({
+      userId
+    })
+    
+    return new AppResponse(res, notifications, 200);
+  } catch (e) {
+    return new AppError(res, e.message, 500);
+  }
+})
+
 module.exports = router;
