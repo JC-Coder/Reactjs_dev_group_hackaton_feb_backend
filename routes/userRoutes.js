@@ -106,7 +106,7 @@ router.post("/request", async (req, res) => {
       return new AppError(
         res,
         {
-          mesage: `You have already requested this song within the last 30 minutes.`,
+          message: `You have already requested this song within the last 30 minutes.`,
         },
         400
       );
