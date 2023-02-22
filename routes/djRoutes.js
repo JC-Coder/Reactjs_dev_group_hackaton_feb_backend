@@ -6,11 +6,11 @@ const Notification = require("../models/Notification");
 
 // get all music requests
 router.get("/requests", async (req, res) => {
-  try{
+  try {
     const requests = await MusicRequest.find();
 
-  return new AppResponse(res, requests, 200);
-  }catch(e){
+    return new AppResponse(res, requests, 200);
+  } catch (e) {
     return new AppError(res, e.message, 500);
   }
 });
@@ -20,7 +20,7 @@ router.put("/requests", async (req, res) => {
   const { id, status } = req.body;
 
   if (!id && !status) {
-    return new AppError(res, {message: "Id and status required"}, 400);
+    return new AppError(res, { message: "Id and status required" }, 400);
   }
 
   try {
@@ -45,10 +45,22 @@ router.put("/requests", async (req, res) => {
       } ${statusMessage(status)}`,
     });
 
-
     return new AppResponse(res, { message: "request status updated" }, 200);
   } catch (e) {
     return new AppError(res, e.message, 404);
+  }
+});
+
+// get all dj notifications
+router.get("/notifications", async (req, res) => {
+  try {
+    const notifications = await Notification.find({
+      access: "dj",
+    });
+
+    return new AppResponse(res, notifications, 200);
+  } catch (e) {
+    return new AppError(res, e.message, 500);
   }
 });
 

@@ -162,7 +162,7 @@ router.get("/requests/:userId", async (req, res) => {
   }
 });
 
-// user delete all request history 
+// user delete all request history
 router.post("/requests/clear/:userId", async (req, res) => {
   const { userId } = req.params;
 
@@ -175,15 +175,15 @@ router.post("/requests/clear/:userId", async (req, res) => {
       userId,
     });
 
-    return new AppResponse(res, {message: "History Deleted"}, 200);
+    return new AppResponse(res, { message: "History Deleted" }, 200);
   } catch (e) {
     return new AppError(res, e.message, 500);
   }
 });
 
 // get all user notifications
-router.get('/notifications/:userId', async (req, res) => {
-  const {userId} = req.params;
+router.get("/notifications/:userId", async (req, res) => {
+  const { userId } = req.params;
 
   if (!userId) {
     return new AppError(res, `user id is required`, 400);
@@ -191,13 +191,14 @@ router.get('/notifications/:userId', async (req, res) => {
 
   try {
     const notifications = await Notification.find({
-      userId
-    })
-    
+      userId,
+      access: "user",
+    });
+
     return new AppResponse(res, notifications, 200);
   } catch (e) {
     return new AppError(res, e.message, 500);
   }
-})
+});
 
 module.exports = router;
