@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const MusicRequestSchema = new mongoose.Schema({
     name: String,
     artist: String,
+    albumArt: String,
     userId: String,
     requestedAt: {
         type: Date,
