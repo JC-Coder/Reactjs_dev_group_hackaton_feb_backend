@@ -3,6 +3,7 @@ const User = require("../models/User");
 const MusicRequest = require("../models/MusicRequests");
 const { AppResponse, AppError, helperFunction } = require("../utils");
 const Notification = require("../models/Notification");
+const { triggerPusher } = require("../config/pusher");
 
 // create new user
 router.post("/new", async (req, res) => {
@@ -73,44 +74,44 @@ router.post("/request", async (req, res) => {
     }
 
     // limit user to 1 request every 5 minute
-    if (user.nextMusicRequestTime > time) {
-      const remTime = helperFunction.convertMilliseconds(
-        user.nextMusicRequestTime - time
-      );
-      return new AppError(
-        res,
-        {
-          message: `you can only request a song every 5 minutes, next request in ${remTime} mins`,
-        },
-        400
-      );
-    }
+    // if (user.nextMusicRequestTime > time) {
+    //   const remTime = helperFunction.convertMilliseconds(
+    //     user.nextMusicRequestTime - time
+    //   );
+    //   return new AppError(
+    //     res,
+    //     {
+    //       message: `you can only request a song every 5 minutes, next request in ${remTime} mins`,
+    //     },
+    //     400
+    //   );
+    // }
 
     // check if user have request the same song within last 30 mins
-    const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
-    const similarSongNames = await helperFunction.getSimilarSongNames(
-      name.toLowerCase(),
-      userId
-    );
+    // const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
+    // const similarSongNames = await helperFunction.getSimilarSongNames(
+    //   name.toLowerCase(),
+    //   userId
+    // );
 
-    const previousRequests = await MusicRequest.find({
-      userId,
-      name: {
-        $in: [name.toLowerCase(), ...similarSongNames],
-      },
-      artist: artist.toLowerCase(),
-      requestedAt: { $gte: thirtyMinutesAgo },
-    });
+    // const previousRequests = await MusicRequest.find({
+    //   userId,
+    //   name: {
+    //     $in: [name.toLowerCase(), ...similarSongNames],
+    //   },
+    //   artist: artist.toLowerCase(),
+    //   requestedAt: { $gte: thirtyMinutesAgo },
+    // });
 
-    if (previousRequests.length > 0) {
-      return new AppError(
-        res,
-        {
-          message: `You have already requested this song within the last 30 minutes.`,
-        },
-        400
-      );
-    }
+    // if (previousRequests.length > 0) {
+    //   return new AppError(
+    //     res,
+    //     {
+    //       message: `You have already requested this song within the last 30 minutes.`,
+    //     },
+    //     400
+    //   );
+    // }
 
     // make request
     const request = await MusicRequest.create({
@@ -137,6 +138,10 @@ router.post("/request", async (req, res) => {
       { new: true }
     );
 
+    // trigger pusher
+    triggerPusher("user-new-request", request);
+    triggerPusher("dj-new-notification", notification);
+
     return new AppResponse(res, request, 201);
   } catch (e) {
     return new AppError(res, e.message, 500);
@@ -154,7 +159,7 @@ router.get("/requests/:userId", async (req, res) => {
   try {
     const requests = await MusicRequest.find({
       userId,
-    });
+    }).sort({ createdAt: -1 });
 
     return new AppResponse(res, requests, 200);
   } catch (e) {

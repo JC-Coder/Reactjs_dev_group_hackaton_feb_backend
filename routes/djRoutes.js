@@ -3,6 +3,7 @@ const User = require("../models/User");
 const MusicRequest = require("../models/MusicRequests");
 const { AppResponse, AppError } = require("../utils");
 const Notification = require("../models/Notification");
+const { triggerPusher } = require("../config/pusher");
 
 // get all music requests
 router.get("/requests", async (req, res) => {
@@ -45,6 +46,9 @@ router.put("/requests", async (req, res) => {
       } ${statusMessage(status)}`,
     });
 
+    // trigger pusher
+    triggerPusher("user-new-notification", notification);
+
     return new AppResponse(res, { message: "request status updated" }, 200);
   } catch (e) {
     return new AppError(res, e.message, 404);
@@ -56,9 +60,32 @@ router.get("/notifications", async (req, res) => {
   try {
     const notifications = await Notification.find({
       access: "dj",
-    });
+    }).sort({ createdAt: -1 });
 
     return new AppResponse(res, notifications, 200);
+  } catch (e) {
+    return new AppError(res, e.message, 500);
+  }
+});
+
+// set now playing song
+router.post("/now-playing", async (req, res) => {
+  let nowPlaying = {};
+
+  try {
+    const { name, artist } = req.body;
+
+    if (!name || !artist) {
+      return new AppError(res, { message: "name and artist is required" }, 500);
+    }
+
+    nowPlaying.name = name;
+    nowPlaying.artist = artist;
+
+    // trigger pusher
+    triggerPusher("now-playing", nowPlaying);
+
+    return new AppResponse(res, { data: nowPlaying, message: "Success" }, 200);
   } catch (e) {
     return new AppError(res, e.message, 500);
   }
