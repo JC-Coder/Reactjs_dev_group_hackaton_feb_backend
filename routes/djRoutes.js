@@ -5,6 +5,8 @@ const { AppResponse, AppError } = require("../utils");
 const Notification = require("../models/Notification");
 const { triggerPusher } = require("../config/pusher");
 
+let nowPlaying = {};
+
 // get all music requests
 router.get("/requests", async (req, res) => {
   try {
@@ -75,8 +77,6 @@ router.get("/notifications", async (req, res) => {
 
 // set now playing song
 router.post("/now-playing", async (req, res) => {
-  let nowPlaying = {};
-
   try {
     const { name, artist } = req.body;
 
@@ -95,5 +95,13 @@ router.post("/now-playing", async (req, res) => {
     return new AppError(res, e.message, 500);
   }
 });
+
+router.get('/now-playing', async(req, res) => {
+  try {
+    res.status(200).json(nowPlaying);
+  } catch (e) {
+    return new AppError(res, e.message, 500);
+  }
+})
 
 module.exports = router;
