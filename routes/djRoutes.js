@@ -46,8 +46,12 @@ router.put("/requests", async (req, res) => {
       } ${statusMessage(status)}`,
     });
 
+    let allRequests = await MusicRequest.find();
+
     // trigger pusher
     triggerPusher("user-new-notification", notification);
+    triggerPusher('user-request-update', request);
+    triggerPusher("all-requests", allRequests);
 
     return new AppResponse(res, { message: "request status updated" }, 200);
   } catch (e) {

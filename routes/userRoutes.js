@@ -179,6 +179,10 @@ router.post("/requests/clear/:userId", async (req, res) => {
     await MusicRequest.deleteMany({
       userId,
     });
+    const requests = await MusicRequest.find();
+
+    // trigger pusher 
+    triggerPusher("all-requests", requests);
 
     return new AppResponse(res, { message: "History Deleted" }, 200);
   } catch (e) {
@@ -198,7 +202,7 @@ router.get("/notifications/:userId", async (req, res) => {
     const notifications = await Notification.find({
       userId,
       access: "user",
-    });
+    }).sort({ createdAt: -1 });
 
     return new AppResponse(res, notifications, 200);
   } catch (e) {
