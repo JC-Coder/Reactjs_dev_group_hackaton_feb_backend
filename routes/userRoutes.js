@@ -141,6 +141,7 @@ router.post("/request", async (req, res) => {
     // trigger pusher
     triggerPusher("user-new-request", request);
     triggerPusher("dj-new-notification", notification);
+    triggerPusher('dj-notification-count')
 
     return new AppResponse(res, request, 201);
   } catch (e) {

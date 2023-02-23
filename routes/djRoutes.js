@@ -52,6 +52,7 @@ router.put("/requests", async (req, res) => {
     triggerPusher("user-new-notification", notification);
     triggerPusher('user-request-update', request);
     triggerPusher("all-requests", allRequests);
+    triggerPusher('user-notification-count')
 
     return new AppResponse(res, { message: "request status updated" }, 200);
   } catch (e) {
