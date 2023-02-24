@@ -29,7 +29,7 @@ Summary:
 
 ### 🖼️ Screenshot
 
-<!-- ![Screenshot from 2022-11-01 10-21-24](https://user-images.githubusercontent.com/99423608/199208330-5782ef9d-7c6b-4035-a491-531e09c61241.png) -->
+  ![image](https://user-images.githubusercontent.com/99423608/221169132-cc2a93ae-fac0-4efd-ba28-bab5bf12ba1e.png)
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
