@@ -50,6 +50,8 @@ Summary:
   
 To use the GrooveDeck backend API, you can send HTTP requests to the API endpoints using tools such as Postman or any other HTTP client. The API endpoints are documented using Swagger UI, which provides a user-friendly interface for testing the API.
 
+Lint to api documentation => https://documenter.getpostman.com/view/25670220/2s93CHuaqn
+
 ## 📚 Getting Started
 
 To get a local copy up and running follow these simple steps.
