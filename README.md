@@ -6,28 +6,25 @@
   <p>This is GrooveDeck backend API built for a hackathon project that provides a platform for music lovers to request their favorite songs and get them played by a DJ. The API is designed to handle the backend functionality of the GrooveDeck platform, such as managing user accounts, processing song requests, and playing songs. </p>
 
   <p  align="center">
-    <a href="https://qiskitquiz.netlify.app/">Live Project</a>
+    <a href="https://groovedeck.adaptable.app">Live Project</a>
   </p>
-
- <!-- <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/JC-Coder/quantum-quiz-app">
-  <img alt="contributors" src="https://img.shields.io/github/contributors/JC-Coder/quantum-quiz-app">
-  <img alt="GitHub Repo forks" src="https://img.shields.io/github/forks/JC-Coder/quantum-quiz-app">
-  <img alt="issues" src="https://img.shields.io/github/issues/JC-Coder/quantum-quiz-app"> </br> -->
 
 </div>
 
 <div align="center">
-<h2>Groovedeck </h2>
+  <br />
+<h2> ✨  Technologies Used </h2>
+  <p>
+    The GrooveDeck backend API is built using Node.js and Express.js framework, with MongoDB as the database management system. The API is hosted on adaptable.io and utilizes various libraries, such as Mongoose for database management and pusher for real-time communication between the server and the client.
+  </p>
 </div>
 
-### ✨ Technologies Used
-
-This project is built with:
+Summary:
 <ul>
-  <li> HTML </li>
-  <li> CSS </li>
-  <li> BOOTSTRAP </li>
-  <li> JAVASCRIPT </li>
+  <li> Node.js </li>
+  <li> Express.js </li>
+  <li> Mongodb </li>
+  <li> pusher </li>
 <ul>
 
 ### 🖼️ Screenshot
@@ -36,6 +33,10 @@ This project is built with:
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+  
+## 📚 Features 
+  
+  <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## 📚 Getting Started
 
