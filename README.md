@@ -76,7 +76,7 @@ Any browser (chrome , operamini , firefox etc.)
 4. Install the project dependencies
 
    ```bash
-   cd Reactjs_dev_group_hackaton_feb_backend
+   npm install
    ```
 5. Start the server 
   ```bash
