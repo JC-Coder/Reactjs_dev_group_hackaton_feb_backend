@@ -29,7 +29,7 @@ Summary:
 
 ### 🖼️ Screenshot
 
-![Screenshot from 2022-11-01 10-21-24](https://user-images.githubusercontent.com/99423608/199208330-5782ef9d-7c6b-4035-a491-531e09c61241.png)
+<!-- ![Screenshot from 2022-11-01 10-21-24](https://user-images.githubusercontent.com/99423608/199208330-5782ef9d-7c6b-4035-a491-531e09c61241.png) -->
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
