@@ -6,7 +6,7 @@
   <p>This is GrooveDeck backend API built for a hackathon project that provides a platform for music lovers to request their favorite songs and get them played by a DJ. The API is designed to handle the backend functionality of the GrooveDeck platform, such as managing user accounts, processing song requests, and playing songs. </p>
 
   <p  align="center">
-    <a href="https://groovedeck.adaptable.app">Live Project</a>
+    <a href="https://groovedeck.vercel.app">Live Project</a>
   </p>
 
 </div>
@@ -35,8 +35,20 @@ Summary:
 <p align="right">(<a href="#top">back to top</a>)</p>
   
 ## 📚 Features 
+  The GrooveDeck backend API provides the following features:
+<ul>
+  <li>Song request processing, including adding, updating, and deleting song requests</li>
+  <li>Real-time updates to song requests using pusher</li>
+  <li>Real-time updates to notifications using pusher</li>
+  </ul>
+
   
   <p align="right">(<a href="#top">back to top</a>)</p>
+  
+  
+## 📚 Usage 
+  
+To use the GrooveDeck backend API, you can send HTTP requests to the API endpoints using tools such as Postman or any other HTTP client. The API endpoints are documented using Swagger UI, which provides a user-friendly interface for testing the API.
 
 ## 📚 Getting Started
 
@@ -47,23 +59,31 @@ Any browser (chrome , operamini , firefox etc.)
 
 ### 🛠️ Installation
 
-1. [Fork](https://github.com/JC-Coder/quantum-quiz-app/fork) the project. Click on the fork icon in the top right to get started
+1. [Fork](https://github.com/JC-Coder/Reactjs_dev_group_hackaton_feb_backend/fork) the project. Click on the fork icon in the top right to get started
 2. Clone the project, you can use the following command:
 
    ```bash
-   git clone https://github.com/<your-github-username>/quantum-quiz-app
+   git clone https://github.com/<your-github-username>/Reactjs_dev_group_hackaton_feb_backend
    ```
 
 3. Navigate to the project directory
 
    ```bash
-   cd quantum-quiz-app
+   cd Reactjs_dev_group_hackaton_feb_backend
    ```
+4. Install the project dependencies
 
-4. Open the index file in your browser 
+   ```bash
+   cd Reactjs_dev_group_hackaton_feb_backend
+   ```
+5. Start the server 
+  ```bash
+  npm start dev 
+  ```
+6. Access the server on `http://localhost:3000`
 
 ## 🎨 Demo
 
-Check out the website: [Quantum Quiz App](https://qiskitquiz.netlify.app/)
+Check out the website: [Groovedeck](https://groovedeck.vercel.app/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
