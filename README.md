@@ -1,9 +1,9 @@
 <div id="top"></div>
 
 <div align="center">
-  <h1>Qiskit Fall Fest 2022 Hackaton</h1>
-  <h2>Quantom Quiz App </h2>
-  <p>This quiz app was created for the qiskit fall fest 2022 hackaton. The app contains quantum quiz questions which the users are expected to answer. </p>
+  <h1>Hackaton Project : Club Music Request App </h1>
+  <h2>Groovedeck </h2>
+  <p>This is GrooveDeck backend API built for a hackathon project that provides a platform for music lovers to request their favorite songs and get them played by a DJ. The API is designed to handle the backend functionality of the GrooveDeck platform, such as managing user accounts, processing song requests, and playing songs. </p>
 
   <p  align="center">
     <a href="https://qiskitquiz.netlify.app/">Live Project</a>
@@ -16,7 +16,11 @@
 
 </div>
 
-### ✨ Built With
+<div align="center">
+<h2>Groovedeck </h2>
+</div>
+
+### ✨ Technologies Used
 
 This project is built with:
 <ul>
