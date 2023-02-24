@@ -1,9 +1,9 @@
 const router = require("express").Router();
-const User = require("../models/User");
 const MusicRequest = require("../models/MusicRequests");
 const { AppResponse, AppError } = require("../utils");
 const Notification = require("../models/Notification");
 const { triggerPusher } = require("../config/pusher");
+require("dotenv").config();
 
 let nowPlaying = {};
 
@@ -52,9 +52,9 @@ router.put("/requests", async (req, res) => {
 
     // trigger pusher
     triggerPusher("user-new-notification", notification);
-    triggerPusher('user-request-update', request);
+    triggerPusher("user-request-update", request);
     triggerPusher("all-requests", allRequests);
-    triggerPusher('user-notification-count')
+    triggerPusher("user-notification-count");
 
     return new AppResponse(res, { message: "request status updated" }, 200);
   } catch (e) {
@@ -96,12 +96,33 @@ router.post("/now-playing", async (req, res) => {
   }
 });
 
-router.get('/now-playing', async(req, res) => {
+// get now playing song
+router.get("/now-playing", async (req, res) => {
   try {
     res.status(200).json(nowPlaying);
   } catch (e) {
     return new AppError(res, e.message, 500);
   }
-})
+});
+
+// dj auth
+router.post("/auth", async (req, res) => {
+  const { key } = req.body;
+  const DJ_AUTH_KEY = process.env.DJ_AUTH_KEY
+
+  if (!key) {
+    return new AppError(res, { message: "Key is required" }, 500);
+  }
+
+  try {
+    if(key !== DJ_AUTH_KEY) {
+      return new AppResponse(res, {message: 'key is invalid'}, 400);
+    }
+
+    return new AppResponse(res, {message: 'Success, key  valid'}, 200);
+  } catch (e) {
+    return new AppError(res, e.message, 500);
+  }
+});
 
 module.exports = router;
