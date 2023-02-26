@@ -17,7 +17,7 @@ const helperFunction = {
     // Query the database for previously requested song names
     const previousRequests = await MusicRequest.find(
       {
-        
+        userId,
       },
       "name"
     );
